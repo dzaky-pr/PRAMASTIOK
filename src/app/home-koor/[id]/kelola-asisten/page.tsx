@@ -22,7 +22,7 @@ type User = {
   role_name: string;
 };
 
-export default withAuth(KelolaAsisten, ['admin']);
+export default withAuth(KelolaAsisten, ['koordinator']);
 
 function KelolaAsisten({ params }: { params: { id: string } }) {
   const [loading, setLoading] = React.useState(true);
@@ -130,29 +130,13 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
           <div className=' align-left container mx-auto flex h-full w-screen flex-row items-start gap-2 '>
             <ButtonLink
               rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-asisten`}
+              href={`/home-koor/${params.id}/kelola-asisten/tambah-asisten`}
               // href='/'
               className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
             >
               Tambah Asisten
             </ButtonLink>
-            <ButtonLink
-              rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-koor`}
-              // href='/'
-              className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
-            >
-              Tambah Koordinator
-            </ButtonLink>
 
-            <ButtonLink
-              rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-dosen`}
-              // href='/'
-              className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
-            >
-              Tambah Dosen
-            </ButtonLink>
 
           </div>
           <div className=' container mx-auto flex h-full w-screen flex-col items-start justify-center gap-2 '>

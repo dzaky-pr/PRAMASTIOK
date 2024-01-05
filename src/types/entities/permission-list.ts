@@ -2,6 +2,8 @@ enum PermissionEnum {
   'user',
   'praktikan',
   'asisten',
+  'dosen',
+  'koordinator',
   'admin',
   'all',
   'authed',

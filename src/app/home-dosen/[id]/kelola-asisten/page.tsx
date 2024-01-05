@@ -22,7 +22,7 @@ type User = {
   role_name: string;
 };
 
-export default withAuth(KelolaAsisten, ['admin']);
+export default withAuth(KelolaAsisten, ['dosen']);
 
 function KelolaAsisten({ params }: { params: { id: string } }) {
   const [loading, setLoading] = React.useState(true);
@@ -56,18 +56,7 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
     return setDataAsisten(res.data.data);
   }, [params.id, token]);
 
-  const LoadDosen = React.useCallback(async () => {
-    const res = await api.get<ApiReturn<User[]>>(`/role/${params.id}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    if (!res.data.data) {
-      return;
-    }
-    setLoading(false);
-    return setDataAsisten(res.data.data);
-  }, [params.id, token]);
+
 
   const handleDeleteButtonClick = async (nrp: string | undefined) => {
     try {
@@ -98,19 +87,6 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
     }
   };
 
-  const handleDeleteButtonClick2 = async (nrp: string | undefined) => {
-    try {
-      await api.delete<ApiReturn<User[]>>(`/role/${params.id}/dosen/${nrp}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      LoadDosen();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  };
 
   React.useEffect(() => {
     LoadAsisten();
@@ -130,7 +106,7 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
           <div className=' align-left container mx-auto flex h-full w-screen flex-row items-start gap-2 '>
             <ButtonLink
               rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-asisten`}
+              href={`/home-dosen/${params.id}/kelola-asisten/tambah-asisten`}
               // href='/'
               className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
             >
@@ -138,20 +114,11 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
             </ButtonLink>
             <ButtonLink
               rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-koor`}
+              href={`/home-dosen/${params.id}/kelola-asisten/tambah-koordinator`}
               // href='/'
               className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
             >
               Tambah Koordinator
-            </ButtonLink>
-
-            <ButtonLink
-              rightIcon={FaPlus}
-              href={`/home-admin/${params.id}/kelola-asisten/tambah-dosen`}
-              // href='/'
-              className=' flex flex-row gap-1.5 rounded-3xl border-none bg-black text-orange-600'
-            >
-              Tambah Dosen
             </ButtonLink>
 
           </div>
@@ -178,7 +145,8 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
                       <td className='border p-2 text-center'>{e.nama}</td>
                       <td className='border p-2 text-center'>{e.nrp}</td>
                       <td className='border p-2 text-center'>{e.role_name}</td>
-                      <td className='flex w-full justify-center border p-2 '>
+                     {e.role_name !== 'dosen' && (
+                      <td className='flex w-full justify-center p-2 '>
                         <Button
                           className='bg-darkGrey-900 rounded-3xl border border-none text-orange-600'
                           onClick={() => {
@@ -186,14 +154,13 @@ function KelolaAsisten({ params }: { params: { id: string } }) {
                               handleDeleteButtonClick1(e.nrp);
                             } else if (e.role_name === 'asisten') {
                               handleDeleteButtonClick(e.nrp);
-                            } else if (e.role_name === 'dosen'){
-                              handleDeleteButtonClick2(e.nrp)
                             }
                           }}
                         >
                           Copot Peran
                         </Button>
                       </td>
+                      )}
                     </tr>
                   ))
                 )}

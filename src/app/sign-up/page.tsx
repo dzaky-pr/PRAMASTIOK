@@ -18,7 +18,7 @@ import MainLayout from '@/layouts/MainLayout';
 type SignupForm = {
   nama: string;
   nrp: string;
-  email: string;
+  email: string;                                         
   password: string;
   nohp: string;
   departemen: string;

@@ -75,7 +75,9 @@ export default function LoginPage() {
 
       if (
         user?.data.data?.roles[0] === 'praktikan' &&
-        user?.data.data?.roles[1] !== 'asisten'
+        user?.data.data?.roles[1] !== 'asisten' &&
+        user?.data.data?.roles[2] !== 'dosen' &&
+        user?.data.data?.roles[3] !== 'koordinator' 
       ) {
         router.push('/home');
       } else if (
@@ -83,7 +85,17 @@ export default function LoginPage() {
         user?.data.data?.roles[1] === 'asisten'
       ) {
         router.push('/home-asisten');
-      } else if (user?.data.data?.roles[0] === 'admin') {
+      }else if (
+        user?.data.data?.roles[0] === 'praktikan' &&
+        user?.data.data?.roles[1] === 'koordinator'
+      ) {
+        router.push('/home-koor');
+      }else if (
+        user?.data.data?.roles[0] === 'praktikan' && 
+        user?.data.data?.roles[1] === 'dosen'
+        ) {
+        router.push('/home-dosen'); 
+      }else if (user?.data.data?.roles[0] === 'admin') {
         router.push('/home-admin');
       }
     },
@@ -92,8 +104,12 @@ export default function LoginPage() {
 
       if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'asisten') {
         router.push('/home-asisten');
+      } else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'dosen') {
+        router.push('/home-dosen');
       } else if (user?.roles[0] === 'admin') {
         router.push('/home-admin');
+      }else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'koordinator') {
+        router.push('/home-koor');
       } else {
         router.push('/home');
       }

@@ -36,7 +36,11 @@ const Navbar = ({
   const handleNotification = () => {
     if (user?.roles[0] === 'admin') {
       router.push('/pengumuman-admin');
-    } else {
+    } else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'koordinator' )
+    {
+      router.push('/home-koor/pengumuman-koor');
+    }
+    else {
       router.push('/pengumuman');
     }
   };
@@ -68,7 +72,9 @@ const Navbar = ({
 
               {withDropdown &&
                 user?.roles[0] === 'praktikan' &&
-                user?.roles[1] !== 'asisten' && (
+                user?.roles[1] !== 'asisten' && 
+                user?.roles[1] !== 'dosen' && 
+                user?.roles[1] !== 'koordinator' && (
                   <Button
                     rightIcon={VscTriangleDown}
                     variant='outline'
@@ -98,13 +104,39 @@ const Navbar = ({
                   {user?.roles[0]}
                 </Button>
               )}
+
+                {withDropdown &&
+                user?.roles[0] === 'praktikan' &&
+                user?.roles[1] === 'dosen' && (
+                  <Button
+                    rightIcon={VscTriangleDown}
+                    variant='outline'
+                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
+                  >
+                    {user?.roles[1]}
+                  </Button>
+                )}
+
+                {withDropdown &&
+                user?.roles[0] === 'praktikan' &&
+                user?.roles[1] === 'koordinator' && (
+                  <Button
+                    rightIcon={VscTriangleDown}
+                    variant='outline'
+                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
+                  >
+                    {user?.roles[1]}
+                  </Button>
+                )}  
+
             </div>
           ) : null}
         </div>
 
         {withRightNav && (
           <ul className='bg-darkGrey-600 flex flex-row justify-around gap-4 rounded-full px-6 py-4 '>
-            {user?.roles[0] !== 'admin' && (
+            {user?.roles.includes('admin') || user?.roles.includes('dosen') || user?.roles.includes('koordinator')? null :
+             (
               <Button
                 onClick={handleJadwal}
                 variant='ghost'
@@ -115,6 +147,8 @@ const Navbar = ({
                 </li>
               </Button>
             )}
+
+
 
             <Button
               onClick={handleNotification}
