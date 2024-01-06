@@ -76,8 +76,8 @@ export default function LoginPage() {
       if (
         user?.data.data?.roles[0] === 'praktikan' &&
         user?.data.data?.roles[1] !== 'asisten' &&
-        user?.data.data?.roles[2] !== 'dosen'  &&
-        user?.data.data?.roles[3] !== 'koordinator'
+        user?.data.data?.roles[1] !== 'dosen'  &&
+        user?.data.data?.roles[1] !== 'koordinator' 
       ) {
         router.push('/home');
       } else if (

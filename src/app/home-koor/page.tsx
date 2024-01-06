@@ -33,6 +33,9 @@ function HomeDosen() {
     const res = await api.get<ApiReturn<PraktikumType[]>>('/praktikum', {
       headers: {
         Authorization: token,
+      }, params: {
+        role: 'koordinator',
+        // Add other query parameters as needed
       },
     });
     if (!res.data.data) {

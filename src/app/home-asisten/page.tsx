@@ -34,10 +34,15 @@ function HomeAsisten() {
       headers: {
         Authorization: token,
       },
+      params: {
+        role: 'asisten',
+        // Add other query parameters as needed
+      },
     });
     if (!res.data.data) {
       return;
     }
+   
     setLoading(false);
     return setQueryData(res.data.data);
   }, [token]);

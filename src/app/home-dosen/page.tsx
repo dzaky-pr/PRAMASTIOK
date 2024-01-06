@@ -34,6 +34,10 @@ function HomeDosen() {
       headers: {
         Authorization: token,
       },
+      params: {
+        role: 'dosen',
+        // Add other query parameters as needed
+      },
     });
     if (!res.data.data) {
       return;
