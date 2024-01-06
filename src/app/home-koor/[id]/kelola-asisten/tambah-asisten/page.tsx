@@ -30,7 +30,7 @@ type TambahAsisten = {
   nrpList: Array<string>;
 };
 
-export default withAuth(TambahAsisten, ['admin']);
+export default withAuth(TambahAsisten, ['koordinator']);
 
 function TambahAsisten({ params }: { params: { id: string } }) {
   const token = getAccessToken();

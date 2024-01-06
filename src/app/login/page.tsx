@@ -77,7 +77,7 @@ export default function LoginPage() {
         user?.data.data?.roles[0] === 'praktikan' &&
         user?.data.data?.roles[1] !== 'asisten' &&
         user?.data.data?.roles[2] !== 'dosen' &&
-        user?.data.data?.roles[3] !== 'koordinator' 
+        user?.data.data?.roles[3] !== 'koordinator'
       ) {
         router.push('/home');
       } else if (
@@ -89,7 +89,7 @@ export default function LoginPage() {
         user?.data.data?.roles[0] === 'praktikan' &&
         user?.data.data?.roles[1] === 'koordinator'
       ) {
-        router.push('/home-koor');
+        router.push('/home-asisten');
       }else if (
         user?.data.data?.roles[0] === 'praktikan' && 
         user?.data.data?.roles[1] === 'dosen'
@@ -109,7 +109,7 @@ export default function LoginPage() {
       } else if (user?.roles[0] === 'admin') {
         router.push('/home-admin');
       }else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'koordinator') {
-        router.push('/home-koor');
+        router.push('/home-dosen');
       } else {
         router.push('/home');
       }
