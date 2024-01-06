@@ -22,9 +22,9 @@ export type PraktikumType = {
   logo_praktikum?: string;
 };
 
-export default withAuth(HomeKoor, ['koordinator']);
+export default withAuth(HomeDosen, ['koordinator']);
 
-function HomeKoor() {
+function HomeDosen() {
   const token = getAccessToken();
   const [queryData, setQueryData] = React.useState<PraktikumType[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -106,19 +106,19 @@ function HomeKoor() {
                       Jadwal Praktikum
                     </ButtonLink>
                     <ButtonLink
-                      href={`/home-koor/${data.praktikum_id}/kelola-asisten`}
+                      href={`/home-dosen/${data.praktikum_id}/kelola-asisten`}
                       className='w-full justify-center rounded-full bg-white px-6 py-4 font-bold text-black'
                     >
                       Kelola Asisten
                     </ButtonLink>
                     <ButtonLink
-                      href={`/home-koor/${data.praktikum_id}/jadwal-asisten`}
+                      href={`/home-dosen/${data.praktikum_id}/jadwal-asisten`}
                       className='w-full justify-center rounded-full bg-white px-6 py-4 font-bold text-black'
                     >
                       Jadwal Asistensi
                     </ButtonLink>
                     <ButtonLink
-                      href={`/home-koor/${data.praktikum_id}/daftar-peserta`}
+                      href={`/home-dosen/${data.praktikum_id}/daftar-peserta`}
                       className='w-full justify-center rounded-full bg-white px-6 py-4 font-bold text-black'
                     >
                       Daftar Peserta

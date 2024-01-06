@@ -19,7 +19,7 @@ export type PraktikumType = {
   deskripsi: string;
   logo_praktikum?: string;
   praktikum_id?: number;
-  className?: string;
+  className?: string; 
 };
 
 export default withAuth(HomeAsisten, ['asisten']);

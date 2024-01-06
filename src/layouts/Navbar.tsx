@@ -36,9 +36,10 @@ const Navbar = ({
   const handleNotification = () => {
     if (user?.roles[0] === 'admin') {
       router.push('/pengumuman-admin');
-    } else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'koordinator' )
-    {
-      router.push('/home-koor/pengumuman-koor');
+    } else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'koordinator' ){
+       router.push('/home-koor/pengumuman-koor');
+    }else if (user?.roles[0] === 'praktikan' && user?.roles[1] === 'dosen'|| user?.roles[0] === 'dosen' ) {
+      router.push('/home-dosen/pengumuman-dosen');
     }
     else {
       router.push('/pengumuman');
