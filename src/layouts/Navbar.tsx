@@ -68,6 +68,8 @@ const Navbar = ({
       router.push('/home-koor'); // Change the route accordingly
     } else if (selectedRole === 'admin') {
       router.push('/home-admin'); // Change the route accordingly
+    }else if (selectedRole === 'asisten') {
+      router.push('/home-asisten'); // Change the route accordingly
     }
     
   };
