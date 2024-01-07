@@ -11,6 +11,7 @@ import { getAccessToken } from '@/lib/cookies';
 import Button from '@/components/buttons/Button';
 import IconButton from '@/components/buttons/IconButton';
 import withAuth from '@/components/hoc/withAuth';
+import Loading from '@/components/Loading';
 
 import useAuthStore from '@/stores/useAuthStore';
 
@@ -33,6 +34,7 @@ type JadwalAsistensiAdminType = {
 export default withAuth(JadwalAsistensi, ['asisten']);
 
 function JadwalAsistensi({ params }: { params: { id: string } }) {
+  const [loading, setLoading] = React.useState(true);
   const token = getAccessToken();
 
   const user = useAuthStore.useUser();
@@ -40,7 +42,6 @@ function JadwalAsistensi({ params }: { params: { id: string } }) {
   const [jadwalAsitensi, setJadwalAsistensi] = React.useState<
     JadwalAsistensiAdminType[]
   >([]);
-
   const LoadJadwalPraktikum = React.useCallback(async () => {
     try {
       const res = await api.get<
@@ -50,6 +51,10 @@ function JadwalAsistensi({ params }: { params: { id: string } }) {
           Authorization: token,
         },
       });
+      if (!res.data.data) {
+        return;
+      }
+      setLoading(false);
       return setJadwalAsistensi(res.data.data);
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -129,7 +134,12 @@ function JadwalAsistensi({ params }: { params: { id: string } }) {
       <section className='bg-darkGrey-800 relative flex h-full min-h-screen w-screen'>
         <div className='mx-16 w-screen pt-28'>
           <table className='mb-10 mt-6 w-full table-auto text-orange-600'>
-            {jadwalAsitensi?.map((jadwal) => (
+
+           <tbody className=''>
+            {loading && <Loading />}
+
+
+            {!loading && jadwalAsitensi?.map((jadwal) => (
               <tbody key={jadwal.jadwal_id} className='border'>
                 <tr className=''>
                   <td className='border text-center' rowSpan={6000}>
@@ -176,7 +186,13 @@ function JadwalAsistensi({ params }: { params: { id: string } }) {
                 </tr>
               </tbody>
             ))}
+            </tbody>
           </table>
+          {!loading && jadwalAsitensi.length === 0 && (
+            <p className='mt-12 flex w-full items-center justify-center font-semibold text-orange-600'>
+              Tidak ada Jadwal Praktikum yang terdaftar
+            </p>
+          )}
         </div>
       </section>
     </MainLayout>
