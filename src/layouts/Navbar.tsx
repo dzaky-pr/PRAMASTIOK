@@ -1,11 +1,12 @@
 'use client';
 
+
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { BiSolidUser } from 'react-icons/bi';
 import { IoMdNotifications } from 'react-icons/io';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { MdDateRange } from 'react-icons/md';
-import { VscTriangleDown } from 'react-icons/vsc';
 
 import Button from '@/components/buttons/Button';
 import ButtonLink from '@/components/links/ButtonLink';
@@ -22,6 +23,7 @@ type NavbarProps = {
 };
 
 const defaultTitle = 'PRAMASTI';
+
 
 const Navbar = ({
   title = defaultTitle,
@@ -54,6 +56,22 @@ const Navbar = ({
     }
   };
 
+  const [selectedRole, setSelectedRole] = useState(user?.roles[1]);
+  const handleRoleChange = (selectedRole: string) =>{
+  setSelectedRole(selectedRole); // Update state dengan role terpilih 
+
+    if (selectedRole === 'praktikan') {
+      router.push('/home'); // Change the route accordingly
+    } else if (selectedRole === 'dosen') {
+      router.push('/home-dosen'); // Change the route accordingly
+    }else if (selectedRole === 'koordinator') {
+      router.push('/home-koor'); // Change the route accordingly
+    } else if (selectedRole === 'admin') {
+      router.push('/home-admin'); // Change the route accordingly
+    }
+    
+  };
+
   return (
     <nav className='fixed top-0 z-20  w-full'>
       <div className='mx-16 flex flex-row items-center justify-between p-4'>
@@ -67,76 +85,55 @@ const Navbar = ({
             </Button>
           )}
 
-          {withTitle || withDropdown ? (
-            <div className='bg-darkGrey-600  flex flex-row gap-4  rounded-full px-6 py-4 uppercase text-orange-600'>
+      {withTitle || withDropdown ? (
+            <div className='bg-darkGrey-600 flex flex-row gap-4 rounded-full px-6 py-4 uppercase text-orange-600'>
               {withTitle && <h2>{title}</h2>}
-
-              {withDropdown &&
-                user?.roles[0] === 'praktikan' &&
+              <div className='relative bg-darkGrey-600'>
+                {withDropdown && (
+                  <select
+                    onChange={(e) => handleRoleChange(e.target.value)}
+                    value={selectedRole} // Gunakan state selectedRole sebagai value
+                    className='rounded-full border-orange-600 text-orange-600 bg-darkGrey-600'
+                  >
+                    {user?.roles.map((role, index) => (
+                      <option key={index} value={role}>
+                        {role}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </div>
+          ) : null}        </div>
+              {/* {withDropdown && user?.roles[0] === 'praktikan' &&
                 user?.roles[1] !== 'asisten' && 
                 user?.roles[1] !== 'dosen' && 
-                user?.roles[1] !== 'koordinator' && (
-                  <Button
-                    rightIcon={VscTriangleDown}
-                    variant='outline'
-                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
+                user?.roles[1] !== 'koordinator' && ( 
+               <select
+                    {...register('judul_modul', {
+                      required: true,
+                    })}
+                    name='judul_modul'
+                    id='judul_modul'
+                    className='bg-darkGrey-800'
+                    placeholder= {user?.roles[0]}
                   >
-                    {user?.roles[0]}
-                  </Button>
-                )}
-
-              {withDropdown &&
-                user?.roles[0] === 'praktikan' &&
-                user?.roles[1] === 'asisten' && (
-                  <Button
-                    rightIcon={VscTriangleDown}
-                    variant='outline'
-                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
-                  >
-                    {user?.roles[1]}
-                  </Button>
-                )}
-
-              {withDropdown && user?.roles[0] === 'admin' && (
-                <Button
-                  variant='outline'
-                  className=' flex flex-row justify-between rounded-full  border-orange-600 text-orange-600'
-                >
-                  {user?.roles[0]}
-                </Button>
-              )}
-
-                {withDropdown &&
-                user?.roles[0] === 'praktikan' &&
-                user?.roles[1] === 'dosen' && (
-                  <Button
-                    rightIcon={VscTriangleDown}
-                    variant='outline'
-                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
-                  >
-                    {user?.roles[1]}
-                  </Button>
-                )}
-
-                {withDropdown &&
-                user?.roles[0] === 'praktikan' &&
-                user?.roles[1] === 'koordinator' && (
-                  <Button
-                    rightIcon={VscTriangleDown}
-                    variant='outline'
-                    className='flex flex-row justify-between rounded-full border-orange-600  text-orange-600'
-                  >
-                    {user?.roles[1]}
-                  </Button>
-                )}  
-
-            </div>
-          ) : null}
-        </div>
+                    {dataJadwal?.map((jadwal) => {
+                      return (
+                        <option
+                          value={jadwal.judul_modul}
+                          key={jadwal.id_modul}
+                        >
+                          {jadwal.judul_modul}
+                        </option>
+                      );
+                    })}
+               </select>
+                  )} */}
 
         {withRightNav && (
           <ul className='bg-darkGrey-600 flex flex-row justify-around gap-4 rounded-full px-6 py-4 '>
-            {user?.roles.includes('admin') || user?.roles.includes('dosen') || user?.roles.includes('koordinator')? null :
+            {user?.roles.includes('admin') || user?.roles.includes('dosen') || user?.roles.includes('koordinator') ? null : (
              (
               <Button
                 onClick={handleJadwal}
@@ -147,10 +144,9 @@ const Navbar = ({
                   <MdDateRange size={34} className='text-orange-600' />
                 </li>
               </Button>
+             )
             )}
-
-
-
+            
             <Button
               onClick={handleNotification}
               variant='ghost'
@@ -162,7 +158,7 @@ const Navbar = ({
             </Button>
 
             <ButtonLink href='/profile' variant='ghost' className='!m-0 !p-0'>
-              <li className=''>
+            <li className=''>
                 <BiSolidUser size={34} className='text-orange-600' />
               </li>
             </ButtonLink>
